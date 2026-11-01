@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: sha256 is deterministic and timing-safe comparison works
+ok 1 - sha256 is deterministic and timing-safe comparison works
+  ---
+  duration_ms: 1.358041
+  type: 'test'
+  ...
+# Subtest: private medical uploads are not exposed through a generic static directory
+ok 2 - private medical uploads are not exposed through a generic static directory
+  ---
+  duration_ms: 1.777291
+  type: 'test'
+  ...
+# Subtest: consultation clinical completion requires an active licensed doctor
+ok 3 - consultation clinical completion requires an active licensed doctor
+  ---
+  duration_ms: 0.261022
+  type: 'test'
+  ...
+# Subtest: medicine creation accepts a blank optional category and returns field errors
+ok 4 - medicine creation accepts a blank optional category and returns field errors
+  ---
+  duration_ms: 0.273291
+  type: 'test'
+  ...
+# Subtest: appointment booking has capacity locking, booking windows, and idempotency
+ok 5 - appointment booking has capacity locking, booking windows, and idempotency
+  ---
+  duration_ms: 0.294672
+  type: 'test'
+  ...
+# Subtest: inventory reconciliation rejects a stale physical count
+ok 6 - inventory reconciliation rejects a stale physical count
+  ---
+  duration_ms: 0.281323
+  type: 'test'
+  ...
+# Subtest: the upgrade migration preserves students while introducing shared patients
+ok 7 - the upgrade migration preserves students while introducing shared patients
+  ---
+  duration_ms: 0.328023
+  type: 'test'
+  ...
+# Subtest: consultation pages include a global error boundary and explicit recovery states
+ok 8 - consultation pages include a global error boundary and explicit recovery states
+  ---
+  duration_ms: 1.017229
+  type: 'test'
+  ...
+# Subtest: record viewing, medical downloads, and report exports are audited
+ok 9 - record viewing, medical downloads, and report exports are audited
+  ---
+  duration_ms: 0.191328
+  type: 'test'
+  ...
+# Subtest: v1.2 migration is incremental and adds policy, gallery, archive, and idempotency structures
+ok 10 - v1.2 migration is incremental and adds policy, gallery, archive, and idempotency structures
+  ---
+  duration_ms: 2.434879
+  type: 'test'
+  ...
+# Subtest: policy acceptance is enforced by the backend and versioned publications are immutable
+ok 11 - policy acceptance is enforced by the backend and versioned publications are immutable
+  ---
+  duration_ms: 0.349175
+  type: 'test'
+  ...
+# Subtest: login exposes readable pre-authentication policy links and separate acknowledgments
+ok 12 - login exposes readable pre-authentication policy links and separate acknowledgments
+  ---
+  duration_ms: 0.39956
+  type: 'test'
+  ...
+# Subtest: landing page supports responsive sections, image galleries, and safe media replacement
+ok 13 - landing page supports responsive sections, image galleries, and safe media replacement
+  ---
+  duration_ms: 0.609666
+  type: 'test'
+  ...
+# Subtest: archive endpoints preserve records and block unresolved operational work
+ok 14 - archive endpoints preserve records and block unresolved operational work
+  ---
+  duration_ms: 0.503467
+  type: 'test'
+  ...
+# Subtest: active selections exclude archived patients and medicines while history routes remain readable
+ok 15 - active selections exclude archived patients and medicines while history routes remain readable
+  ---
+  duration_ms: 0.349705
+  type: 'test'
+  ...
+# Subtest: consultation creation, medicine issuance, and stock receipt use stable idempotency keys
+ok 16 - consultation creation, medicine issuance, and stock receipt use stable idempotency keys
+  ---
+  duration_ms: 1.133994
+  type: 'test'
+  ...
+# Subtest: explicit medicine batches are filtered for positive, unexpired stock at the database level
+ok 17 - explicit medicine batches are filtered for positive, unexpired stock at the database level
+  ---
+  duration_ms: 0.286631
+  type: 'test'
+  ...
+# Subtest: permission checks exist in both client routing and backend routes
+ok 18 - permission checks exist in both client routing and backend routes
+  ---
+  duration_ms: 0.89819
+  type: 'test'
+  ...
+# Subtest: backup and restore tools cover both MySQL and uploaded files without embedding credentials
+ok 19 - backup and restore tools cover both MySQL and uploaded files without embedding credentials
+  ---
+  duration_ms: 0.483066
+  type: 'test'
+  ...
+# Subtest: new appointment, visit, and issuance transactions lock patients before archive checks
+ok 20 - new appointment, visit, and issuance transactions lock patients before archive checks
+  ---
+  duration_ms: 0.350407
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 75.278416

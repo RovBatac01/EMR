@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: light; }
+  .dark { color-scheme: dark; }
+  html { @apply scroll-smooth; }
+  body { @apply m-0 min-w-[320px] bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100; }
+  * { @apply border-slate-200 dark:border-slate-800; }
+  button, a, input, select, textarea { @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-kld-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950; }
+}
+
+@layer components {
+  .surface { @apply rounded-2xl border border-slate-200/80 bg-white shadow-soft dark:border-slate-800 dark:bg-slate-900; }
+  .surface-muted { @apply rounded-2xl border border-slate-200/70 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900/60; }
+  .label { @apply mb-1.5 block text-sm font-semibold text-slate-700 dark:text-slate-300; }
+  .input { @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition hover:border-slate-400 focus:border-kld-500 focus:ring-2 focus:ring-kld-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-slate-600; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-kld-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-kld-700 disabled:cursor-not-allowed disabled:opacity-55; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-55 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800; }
+  .btn-danger { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-55; }
+  .icon-button { @apply inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition hover:bg-slate-100 hover:text-kld-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white; }
+  .page-title { @apply text-2xl font-extrabold tracking-tight text-slate-950 dark:text-white sm:text-3xl; }
+  .page-subtitle { @apply mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400; }
+  .table-wrap { @apply overflow-x-auto rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900; }
+  .table { @apply min-w-full divide-y divide-slate-200 text-left text-sm dark:divide-slate-800; }
+  .table th { @apply whitespace-nowrap bg-slate-50 px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-900/80 dark:text-slate-400; }
+  .table td { @apply px-4 py-3 align-middle text-slate-700 dark:text-slate-300; }
+  .table tbody tr { @apply border-b border-slate-100 transition last:border-0 hover:bg-kld-50/50 dark:border-slate-800/70 dark:hover:bg-slate-800/45; }
+}
+
+.safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.mesh-bg {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(252,209,22,.18), transparent 32%),
+    radial-gradient(circle at 85% 16%, rgba(10,92,54,.22), transparent 30%),
+    radial-gradient(circle at 50% 85%, rgba(69,173,127,.14), transparent 35%);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

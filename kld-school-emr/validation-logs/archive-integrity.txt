@@ -1,0 +1,15 @@
+KLD School EMR 1.2.0 archive integrity report
+
+Final package assembly checks:
+- ZIP compressed-data integrity: PASS
+- TAR.GZ listing/integrity: PASS
+- Final archive extraction: PASS
+- SOURCE_MANIFEST.sha256 after extraction: PASS — 189 files
+- Extracted-copy static validation: PASS — 246 checks, 0 failed
+- Extracted-copy Node tests: PASS — 20 passed, 0 failed
+- Forbidden paths (`.env`, `node_modules`, `client/dist`): none
+- User-uploaded medical/landing files: none
+
+The final package was rebuilt after this report was written and the same integrity,
+manifest, static-validation, automated-test, hygiene, and clean-extraction checks
+were repeated successfully.

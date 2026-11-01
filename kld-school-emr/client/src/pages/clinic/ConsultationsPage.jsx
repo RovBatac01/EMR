@@ -1,0 +1,22 @@
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Eye, Pencil, Search } from 'lucide-react';
+import { api } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import PageHeader from '../../components/PageHeader';
+import StatusBadge from '../../components/StatusBadge';
+import Pagination from '../../components/Pagination';
+import EmptyState from '../../components/EmptyState';
+import Alert from '../../components/Alert';
+import { formatDate, formatDateTime } from '../../utils/format';
+
+export default function ConsultationsPage() {
+  const { can } = useAuth(); const [params,setParams] = useSearchParams(); const [items,setItems] = useState([]); const [meta,setMeta] = useState(null); const [loading,setLoading] = useState(true); const [error,setError] = useState(''); const query = Object.fromEntries(params.entries());
+  useEffect(() => { setLoading(true); api.get('/consultations',{params:{...query,limit:15}}).then(({data}) => { setItems(Array.isArray(data.data) ? data.data : []); setMeta(data.meta || null); setError(''); }).catch((e) => setError(e.message)).finally(() => setLoading(false)); },[params.toString()]);
+  const set = (key,value) => { const next = new URLSearchParams(params); if(value) next.set(key,value); else next.delete(key); if(key !== 'page') next.set('page','1'); setParams(next); };
+  return <div><PageHeader title="Consultations" subtitle="Nurses may prepare drafts; only an authenticated doctor with an active professional profile may clinically sign off a consultation."/>
+    {error && <div className="mb-4"><Alert>{error}</Alert></div>}
+    <section className="surface mb-5 p-4"><div className="grid gap-3 md:grid-cols-3 xl:grid-cols-5"><div className="relative md:col-span-2"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={17}/><input className="input pl-9" value={query.search || ''} onChange={(e) => set('search',e.target.value)} placeholder="Consultation, visit, patient, or diagnosis…"/></div><select className="input" value={query.patientType || ''} onChange={(e) => set('patientType',e.target.value)}><option value="">All patient types</option><option>STUDENT</option><option>EMPLOYEE</option></select><select className="input" value={query.status || ''} onChange={(e) => set('status',e.target.value)}><option value="">All statuses</option>{['DRAFT','IN_PROGRESS','COMPLETED','RELEASED'].map((v) => <option key={v}>{v}</option>)}</select><input className="input" type="date" value={query.dateFrom || ''} onChange={(e) => set('dateFrom',e.target.value)}/><input className="input" type="date" value={query.dateTo || ''} onChange={(e) => set('dateTo',e.target.value)}/></div></section>
+    <div className="table-wrap">{loading ? <div className="p-12 text-center text-sm text-slate-500">Loading consultations…</div> : items.length ? <table className="table"><thead><tr><th>Date</th><th>Consultation / Patient</th><th>Chief Complaint</th><th>Diagnosis</th><th>Prepared / Signed</th><th>Status</th><th className="text-right">Actions</th></tr></thead><tbody>{items.map((row) => <tr key={row.id}><td>{formatDate(row.visit_date)}<div className="text-xs text-slate-500">{String(row.visit_time || '').slice(0,5)}</div></td><td><div className="font-extrabold">{row.consultation_number}</div><div className="text-xs text-slate-500">{row.patient_name} · {row.record_number}</div><div className="text-xs text-slate-500">{row.patient_type} · {row.visit_number}</div></td><td className="max-w-56">{row.chief_complaint || '—'}</td><td className="max-w-56">{row.diagnosis || row.findings || 'Pending assessment'}</td><td><div className="text-sm">{row.prepared_by_name || '—'}</div>{row.doctor_name && <div className="text-xs font-bold text-kld-700 dark:text-kld-300">Dr. {row.doctor_name}</div>}{row.signed_off_at && <div className="text-xs text-slate-500">{formatDateTime(row.signed_off_at)}</div>}</td><td><StatusBadge value={row.status}/></td><td><div className="flex justify-end gap-1"><Link className="icon-button" title="View" to={`/consultations/${row.id}`}><Eye size={17}/></Link>{can('consultations.write') && <Link className="icon-button" title="Edit" to={`/consultations/${row.id}/edit`}><Pencil size={17}/></Link>}</div></td></tr>)}</tbody></table> : <EmptyState title="No consultations found" description="Create a consultation from a registered clinic visit."/>}</div><Pagination meta={meta} onPage={(value) => set('page',value)}/>
+  </div>;
+}

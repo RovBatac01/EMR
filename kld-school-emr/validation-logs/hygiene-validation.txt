@@ -1,0 +1,4 @@
+KLD School EMR 1.2.0 package hygiene
+PASS no user-uploaded medical or landing media
+PASS no obvious private API or private-key material
+PASS package excludes secrets, dependencies, build output, and user uploads

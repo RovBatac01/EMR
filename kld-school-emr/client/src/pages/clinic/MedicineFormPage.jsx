@@ -1,0 +1,37 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, Save } from 'lucide-react';
+import { api } from '../../services/api';
+import PageHeader from '../../components/PageHeader';
+import Alert from '../../components/Alert';
+import LoadingScreen from '../../components/LoadingScreen';
+import FormField, { fieldErrors } from '../../components/FormField';
+
+const blank = { medicineCode:'', genericName:'', brandName:'', categoryId:'', categoryName:'', dosageForm:'', unit:'tablet', minimumStock:10, supplier:'', storageLocation:'', isActive:true, initialBatch:{ batchNumber:'', quantity:0, expirationDate:'', receivedDate:new Date().toISOString().slice(0,10) } };
+
+export default function MedicineFormPage() {
+  const { id } = useParams(); const edit = Boolean(id); const navigate = useNavigate();
+  const [form,setForm] = useState(blank); const [categories,setCategories] = useState([]); const [loading,setLoading] = useState(true); const [busy,setBusy] = useState(false); const [error,setError] = useState(''); const [errors,setErrors] = useState({});
+  useEffect(() => { Promise.all([api.get('/medicines/categories'),edit ? api.get(`/medicines/${id}`) : Promise.resolve(null)]).then(([categoryResponse,medicineResponse]) => { setCategories((categoryResponse.data.data || []).filter((row) => row.is_active)); if (medicineResponse) { const m=medicineResponse.data.data.medicine; setForm({ ...blank, medicineCode:m.medicine_code || '', genericName:m.generic_name || '', brandName:m.brand_name || '', categoryId:m.category_id || '', categoryName:'', dosageForm:m.dosage_form || '', unit:m.unit || '', minimumStock:m.minimum_stock ?? 0, supplier:m.supplier || '', storageLocation:m.storage_location || '', isActive:Boolean(m.is_active) }); } }).catch((e) => setError(e.message)).finally(() => setLoading(false)); },[edit,id]);
+  const set=(key,value) => setForm((current) => ({ ...current,[key]:value })); const batch=(key,value) => setForm((current) => ({ ...current,initialBatch:{ ...current.initialBatch,[key]:value } }));
+  const submit = async (event) => {
+    event.preventDefault(); setBusy(true); setError(''); setErrors({});
+    const payload = { medicineCode:form.medicineCode || undefined, genericName:form.genericName, brandName:form.brandName || null, categoryId:form.categoryId || null, categoryName:!form.categoryId && form.categoryName ? form.categoryName : null, dosageForm:form.dosageForm, unit:form.unit, minimumStock:Number(form.minimumStock), supplier:form.supplier || null, storageLocation:form.storageLocation || null };
+    if (edit) payload.isActive=form.isActive;
+    else if (form.initialBatch.batchNumber || form.initialBatch.expirationDate || Number(form.initialBatch.quantity) > 0) payload.initialBatch={ batchNumber:form.initialBatch.batchNumber, quantity:Number(form.initialBatch.quantity), expirationDate:form.initialBatch.expirationDate, receivedDate:form.initialBatch.receivedDate || undefined };
+    try { const { data } = edit ? await api.patch(`/medicines/${id}`,payload) : await api.post('/medicines',payload); navigate(`/medicines/${data.data?.id || id}`); }
+    catch (e) { setError(e.message); setErrors(fieldErrors(e)); }
+    finally { setBusy(false); }
+  };
+  if (loading) return <LoadingScreen compact/>;
+  return <div><PageHeader title={edit ? 'Edit Medicine' : 'Add Medicine'} subtitle="Frontend field names, optional values, and backend validation now share one contract. Invalid submissions preserve all entered values and show field-specific guidance." actions={<Link className="btn-secondary" to={edit ? `/medicines/${id}` : '/medicines'}><ArrowLeft size={17}/>Cancel</Link>}/>
+    {error && <div className="mb-5"><Alert>{error}</Alert></div>}
+    <form onSubmit={submit} className="space-y-6"><section className="surface p-5"><h2 className="text-lg font-extrabold">Medicine Information</h2><div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <Field label="Medicine Code" name="medicineCode" value={form.medicineCode} onChange={(v)=>set('medicineCode',v)} errors={errors}/><Field label="Generic Name" name="genericName" required value={form.genericName} onChange={(v)=>set('genericName',v)} errors={errors}/><Field label="Brand Name" name="brandName" value={form.brandName} onChange={(v)=>set('brandName',v)} errors={errors}/><Field label="Dosage / Form" name="dosageForm" required value={form.dosageForm} onChange={(v)=>set('dosageForm',v)} errors={errors}/><Field label="Unit" name="unit" required value={form.unit} onChange={(v)=>set('unit',v)} errors={errors}/><Field label="Minimum Stock" name="minimumStock" type="number" required min="0" value={form.minimumStock} onChange={(v)=>set('minimumStock',v)} errors={errors}/><Field label="Supplier" name="supplier" value={form.supplier} onChange={(v)=>set('supplier',v)} errors={errors}/><Field label="Storage Location" name="storageLocation" value={form.storageLocation} onChange={(v)=>set('storageLocation',v)} errors={errors}/>
+      <FormField label="Existing Category" name="categoryId" error={errors}><select className="input" value={form.categoryId} onChange={(e)=>set('categoryId',e.target.value)}><option value="">No existing category selected</option>{categories.map((row)=><option key={row.id} value={row.id}>{row.name}</option>)}</select></FormField>{!edit && <FormField label="Or Create New Category" name="categoryName" error={errors} hint="Used only when no existing category is selected."><input className="input" value={form.categoryName} disabled={Boolean(form.categoryId)} onChange={(e)=>set('categoryName',e.target.value)}/></FormField>}{edit && <label className="flex items-center gap-3 self-end rounded-xl border p-3 text-sm font-bold"><input type="checkbox" checked={form.isActive} onChange={(e)=>set('isActive',e.target.checked)}/>Active medicine</label>}
+    </div></section>
+    {!edit && <section className="surface p-5"><h2 className="text-lg font-extrabold">Initial Stock Batch <span className="text-sm font-normal text-slate-400">Optional as a group</span></h2><p className="mt-1 text-sm text-slate-500">When any batch field is entered, batch number and expiration date become required and quantity must be zero or greater.</p><div className="mt-5 grid gap-4 md:grid-cols-4"><Field label="Batch Number" name="initialBatch.batchNumber" value={form.initialBatch.batchNumber} onChange={(v)=>batch('batchNumber',v)} errors={errors}/><Field label="Quantity" name="initialBatch.quantity" type="number" min="0" value={form.initialBatch.quantity} onChange={(v)=>batch('quantity',v)} errors={errors}/><Field label="Expiration Date" name="initialBatch.expirationDate" type="date" value={form.initialBatch.expirationDate} onChange={(v)=>batch('expirationDate',v)} errors={errors}/><Field label="Received Date" name="initialBatch.receivedDate" type="date" value={form.initialBatch.receivedDate} onChange={(v)=>batch('receivedDate',v)} errors={errors}/></div></section>}
+    <div className="flex justify-end"><button className="btn-primary px-6" disabled={busy}><Save size={18}/>{busy ? 'Saving…' : edit ? 'Save Changes' : 'Add Medicine'}</button></div></form>
+  </div>;
+}
+function Field({label,name,type='text',required,min,value,onChange,errors}) { return <FormField label={label} name={name} required={required} error={errors}><input className="input" type={type} required={required} min={min} value={value ?? ''} onChange={(e)=>onChange(e.target.value)}/></FormField>; }

@@ -1,0 +1,25 @@
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Eye, Pencil, Plus, Search } from 'lucide-react';
+import { api } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import PageHeader from '../../components/PageHeader';
+import StatusBadge from '../../components/StatusBadge';
+import Pagination from '../../components/Pagination';
+import EmptyState from '../../components/EmptyState';
+import Alert from '../../components/Alert';
+import { formatDate, titleCase } from '../../utils/format';
+
+export default function VisitsPage() {
+  const { can } = useAuth(); const [params,setParams] = useSearchParams(); const [items,setItems] = useState([]); const [meta,setMeta] = useState(null); const [loading,setLoading] = useState(true); const [error,setError] = useState(''); const query = Object.fromEntries(params.entries());
+  const load = () => { setLoading(true); api.get('/visits',{params:{...query,limit:15}}).then(({data}) => { setItems(data.data || []); setMeta(data.meta); setError(''); }).catch((e) => setError(e.message)).finally(() => setLoading(false)); };
+  useEffect(load,[params.toString()]);
+  const set = (key,value) => { const next = new URLSearchParams(params); if(value) next.set(key,value); else next.delete(key); if(key !== 'page') next.set('page','1'); setParams(next); };
+  const name = (row) => [row.first_name,row.middle_name,row.last_name].filter(Boolean).join(' ');
+  return <div>
+    <PageHeader title="Clinic Visit History" subtitle="Review student and employee encounters, consultation progress, priority, and status." actions={can('visits.write') && <Link className="btn-primary" to="/visits/new"><Plus size={17}/>Register Visit</Link>}/>
+    {error && <div className="mb-4"><Alert>{error}</Alert></div>}
+    <section className="surface mb-5 p-4"><div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6"><div className="relative md:col-span-2"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={17}/><input className="input pl-9" value={query.search || ''} onChange={(e) => set('search',e.target.value)} placeholder="Visit ID, patient, or complaint…"/></div><select className="input" value={query.patientType || ''} onChange={(e) => set('patientType',e.target.value)}><option value="">All patient types</option><option>STUDENT</option><option>EMPLOYEE</option></select><select className="input" value={query.status || ''} onChange={(e) => set('status',e.target.value)}><option value="">All statuses</option>{['REGISTERED','IN_PROGRESS','COMPLETED','CANCELLED'].map((v) => <option key={v}>{v}</option>)}</select><select className="input" value={query.priority || ''} onChange={(e) => set('priority',e.target.value)}><option value="">All priorities</option>{['NORMAL','MODERATE','URGENT','EMERGENCY'].map((v) => <option key={v}>{v}</option>)}</select><select className="input" value={query.visitType || ''} onChange={(e) => set('visitType',e.target.value)}><option value="">All visit types</option>{['WALK_IN','FOLLOW_UP','EMERGENCY','REFERRAL','MEDICAL_CLEARANCE','OTHER'].map((v) => <option key={v}>{v}</option>)}</select><input className="input" type="date" value={query.dateFrom || ''} onChange={(e) => set('dateFrom',e.target.value)}/><input className="input" type="date" value={query.dateTo || ''} onChange={(e) => set('dateTo',e.target.value)}/></div></section>
+    <div className="table-wrap">{loading ? <div className="p-12 text-center text-sm text-slate-500">Loading visits…</div> : items.length ? <table className="table"><thead><tr><th>Date</th><th>Visit / Patient</th><th>Complaint</th><th>Priority</th><th>Consultation</th><th>Status</th><th className="text-right">Actions</th></tr></thead><tbody>{items.map((row) => <tr key={row.id}><td>{formatDate(row.visit_date)}<div className="text-xs text-slate-500">{String(row.visit_time).slice(0,5)}</div></td><td><div className="font-extrabold">{row.visit_number}</div><div className="text-xs text-slate-500">{name(row)} · {row.record_number}</div><div className="text-xs text-slate-500">{row.patient_type}</div></td><td>{row.complaint}<div className="text-xs text-slate-500">{titleCase(row.visit_type)}</div></td><td><StatusBadge value={row.priority}/></td><td>{row.consultation_id ? <Link className="font-bold text-kld-700 dark:text-kld-300" to={`/consultations/${row.consultation_id}`}>{row.consultation_number}</Link> : can('consultations.write') ? <Link className="text-sm font-bold text-kld-700 dark:text-kld-300" to={`/consultations/new?visitId=${row.id}`}>Create consultation</Link> : 'Not recorded'}</td><td><StatusBadge value={row.status}/></td><td><div className="flex justify-end gap-1"><Link className="icon-button" to={`/visits/${row.id}`}><Eye size={17}/></Link>{can('visits.write') && <Link className="icon-button" to={`/visits/${row.id}/edit`}><Pencil size={17}/></Link>}</div></td></tr>)}</tbody></table> : <EmptyState title="No visits found" description="No clinic visits match the selected filters."/>}</div><Pagination meta={meta} onPage={(value) => set('page',value)}/>
+  </div>;
+}

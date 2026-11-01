@@ -1,0 +1,19 @@
+{
+  "name": "kld-school-emr",
+  "private": true,
+  "version": "1.2.0",
+  "description": "KLD School Electronic Medical Records and Student Clinic Portal",
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n API,WEB -c green,yellow \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "start": "npm --prefix server start",
+    "build": "npm --prefix client run build",
+    "check": "npm run verify:source && npm --prefix server run check && npm --prefix client run build",
+    "test": "npm --prefix server test",
+    "verify:source": "node scripts/static-validate.mjs",
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

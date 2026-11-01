@@ -1,0 +1,248 @@
+PASS  Required file: package.json
+PASS  Required file: README.md
+PASS  Required file: RUN_FIRST.md
+PASS  Required file: client/package.json
+PASS  Required file: client/vite.config.js
+PASS  Required file: client/tailwind.config.js
+PASS  Required file: client/src/App.jsx
+PASS  Required file: client/src/pages/auth/ChangePasswordPage.jsx
+PASS  Required file: client/src/pages/clinic/SettingsPage.jsx
+PASS  Required file: client/src/pages/student/StudentDashboardPage.jsx
+PASS  Required file: client/src/pages/student/MyAppointmentsPage.jsx
+PASS  Required file: client/src/pages/public/LandingPage.jsx
+PASS  Required file: client/src/pages/public/PublicQueuePage.jsx
+PASS  Required file: client/src/pages/admin/LandingContentPage.jsx
+PASS  Required file: client/src/pages/admin/PolicyManagementPage.jsx
+PASS  Required file: client/src/pages/clinic/ArchivesPage.jsx
+PASS  Required file: client/src/pages/public/AnnouncementsPage.jsx
+PASS  Required file: client/src/pages/public/AnnouncementDetailPage.jsx
+PASS  Required file: client/src/pages/public/PolicyDocumentPage.jsx
+PASS  Required file: client/src/components/PublicHeader.jsx
+PASS  Required file: client/src/components/PublicFooter.jsx
+PASS  Required file: client/src/pages/clinic/AppointmentsPage.jsx
+PASS  Required file: client/src/pages/clinic/AppointmentSchedulesPage.jsx
+PASS  Required file: client/src/pages/clinic/QueuePage.jsx
+PASS  Required file: client/src/pages/clinic/FollowUpsPage.jsx
+PASS  Required file: client/src/pages/clinic/MedicineCategoriesPage.jsx
+PASS  Required file: client/src/pages/clinic/InventoryControlPage.jsx
+PASS  Required file: client/src/pages/clinic/CorrectionRequestsPage.jsx
+PASS  Required file: client/src/pages/clinic/EmployeeCategoriesPage.jsx
+PASS  Required file: client/src/components/AppErrorBoundary.jsx
+PASS  Required file: server/package.json
+PASS  Required file: server/server.js
+PASS  Required file: server/routes/auth.js
+PASS  Required file: server/routes/students.js
+PASS  Required file: server/routes/visits.js
+PASS  Required file: server/routes/consultations.js
+PASS  Required file: server/routes/medicines.js
+PASS  Required file: server/routes/medicineIssuance.js
+PASS  Required file: server/routes/settings.js
+PASS  Required file: server/routes/publicLanding.js
+PASS  Required file: server/routes/policies.js
+PASS  Required file: server/routes/archives.js
+PASS  Required file: server/services/policies/policyService.js
+PASS  Required file: server/routes/patients.js
+PASS  Required file: server/routes/appointments.js
+PASS  Required file: server/routes/queue.js
+PASS  Required file: server/routes/followUps.js
+PASS  Required file: server/routes/inventoryControl.js
+PASS  Required file: server/routes/patientCorrections.js
+PASS  Required file: server/routes/attachments.js
+PASS  Required file: server/utils/audit.js
+PASS  Required file: server/utils/fileSignatures.js
+PASS  Required file: database/schema.sql
+PASS  Required file: database/seed.sql
+PASS  Required file: database/migrations/001_upgrade_v1_1_0.sql
+PASS  Required file: database/migrations/002_upgrade_v1_2_0.sql
+PASS  Required file: database/migrations/verify_002_upgrade_v1_2_0.sql
+PASS  Required file: CHANGELOG.md
+PASS  Required file: UPGRADE_v1.1.0.md
+PASS  Required file: UPGRADE_v1.2.0.md
+PASS  Required file: COMPLETION_CHECKLIST_v1.2.0.md
+PASS  Required file: docs/backup-and-restore.md
+PASS  Required file: scripts/backup-local.ps1
+PASS  Required file: scripts/restore-local.ps1
+PASS  Required file: TEST_RESULTS.md
+PASS  Required file: TEST_RESULTS_v1.2.0.md
+PASS  Required file: VALIDATION_REPORT.md
+PASS  Required file: VALIDATION_REPORT_v1.2.0.md
+PASS  Required file: VERSION
+PASS  Required file: server/.env.example
+PASS  Required file: client/.env.example
+PASS  root package version is 1.2.0
+PASS  server package version is 1.2.0
+PASS  client package version is 1.2.0
+PASS  server package has no circular root-project dependency
+PASS  client package has no circular root-project dependency
+PASS  VERSION file is 1.2.0
+PASS  Frontend dependency declared: react
+PASS  Frontend dependency declared: react-dom
+PASS  Frontend dependency declared: react-router-dom
+PASS  Frontend dependency declared: axios
+PASS  Frontend dependency declared: lucide-react
+PASS  Frontend dependency declared: recharts
+PASS  Frontend dependency declared: framer-motion
+PASS  Frontend dependency declared: three
+PASS  Frontend dependency declared: @react-three/fiber
+PASS  Backend dependency declared: express
+PASS  Backend dependency declared: mysql2
+PASS  Backend dependency declared: bcrypt
+PASS  Backend dependency declared: jsonwebtoken
+PASS  Backend dependency declared: nodemailer
+PASS  Backend dependency declared: multer
+PASS  Backend dependency declared: zod
+PASS  Backend dependency declared: helmet
+PASS  Backend dependency declared: express-rate-limit
+PASS  Backend dependency declared: cors
+PASS  Root development command is defined
+PASS  Root build command is defined
+PASS  No distributed secret file: .env
+PASS  No distributed secret file: server/.env
+PASS  No distributed secret file: client/.env
+PASS  Normalized schema contains 35 base tables
+PASS  Database table: users
+PASS  Database table: roles
+PASS  Database table: permissions
+PASS  Database table: user_sessions
+PASS  Database table: students
+PASS  Database table: student_accounts
+PASS  Database table: visits
+PASS  Database table: consultations
+PASS  Database table: vital_signs
+PASS  Database table: medicines
+PASS  Database table: medicine_batches
+PASS  Database table: medicine_issuances
+PASS  Database table: medicine_issuance_items
+PASS  Database table: inventory_transactions
+PASS  Database table: staff
+PASS  Database table: clinic_forms
+PASS  Database table: form_submissions
+PASS  Database table: notifications
+PASS  Database table: email_queue
+PASS  Database table: activity_logs
+PASS  Database table: system_settings
+PASS  Schema creates a fresh kld_school_emr database
+PASS  Schema declares foreign keys
+PASS  Medicine inventory view is present
+PASS  Seed users: 6 rows
+PASS  Seed staff: 5 rows
+PASS  Seed students: 24 rows
+PASS  Seed medicines: 16 rows
+PASS  Seed visits: 36 rows
+PASS  Seed consultations: 24 rows
+PASS  Seed clinic_forms: 1 rows
+PASS  Seed activity_logs: 18 rows
+PASS  Development account seeded: admin
+PASS  Development account seeded: clinic.admin
+PASS  Development account seeded: nurse.maria
+PASS  Development account seeded: clinic.paolo
+PASS  Development account seeded: viewer.noel
+PASS  Development account seeded: student.ava
+PASS  REST route mounted: /api/public
+PASS  REST route mounted: /api/patients
+PASS  REST route mounted: /api/appointments
+PASS  REST route mounted: /api/queue
+PASS  REST route mounted: /api/follow-ups
+PASS  REST route mounted: /api/inventory-control
+PASS  REST route mounted: /api/patient-corrections
+PASS  REST route mounted: /api/attachments
+PASS  REST route mounted: /api/auth
+PASS  REST route mounted: /api/students
+PASS  REST route mounted: /api/visits
+PASS  REST route mounted: /api/consultations
+PASS  REST route mounted: /api/medicines
+PASS  REST route mounted: /api/medicine-issuance
+PASS  REST route mounted: /api/settings
+PASS  REST route mounted: /api/student-portal
+PASS  REST route mounted: /api/policies
+PASS  REST route mounted: /api/archives
+PASS  Configurable branding setting: school_name
+PASS  Configurable branding setting: clinic_name
+PASS  Configurable branding setting: institutional_logo
+PASS  Configurable branding setting: clinic_contact
+PASS  Configurable branding setting: clinic_address
+PASS  Authorized clinic-logo upload endpoint is present
+PASS  bcrypt authentication and password hashing are implemented
+PASS  JWT is issued through an HTTP-only cookie
+PASS  CSRF validation is applied to authentication mutations
+PASS  Medicine issuance uses a transaction and row locking
+PASS  Expired medicine validation is present
+PASS  Student portal derives ownership from authenticated identity
+PASS  Upgrade migration table: schema_migrations
+PASS  Upgrade migration table: landing_page_config
+PASS  Upgrade migration table: landing_content_items
+PASS  Upgrade migration table: employee_categories
+PASS  Upgrade migration table: employees
+PASS  Upgrade migration table: patients
+PASS  Upgrade migration table: patient_measurements
+PASS  Upgrade migration table: medical_attachments
+PASS  Upgrade migration table: doctor_profiles
+PASS  Upgrade migration table: appointment_services
+PASS  Upgrade migration table: clinic_schedules
+PASS  Upgrade migration table: clinic_unavailable_dates
+PASS  Upgrade migration table: appointments
+PASS  Upgrade migration table: appointment_status_history
+PASS  Upgrade migration table: appointment_reminders
+PASS  Upgrade migration table: clinic_queue_entries
+PASS  Upgrade migration table: follow_ups
+PASS  Upgrade migration table: inventory_adjustment_requests
+PASS  Upgrade migration table: stock_count_sessions
+PASS  Upgrade migration table: stock_count_items
+PASS  Upgrade migration table: patient_correction_requests
+PASS  Upgrade migration contract: INSERT IGNORE INTO patients
+PASS  Upgrade migration contract: UPDATE visits SET patient_id = student_id
+PASS  Upgrade migration contract: UPDATE consultations SET patient_id = student_id
+PASS  Upgrade migration contract: INSERT IGNORE INTO roles (code, name, `rank`) VALUES ('DOCTOR'
+PASS  Upgrade migration contract: consultations.signoff
+PASS  Upgrade migration contract: schema_migrations
+PASS  Upgrade migration contract: system_version','1.1.0
+PASS  Only allow-listed public upload directories are exposed
+PASS  Branding/landing media are public while attachments use an authenticated API
+PASS  Consultation sign-off is restricted to an active licensed Doctor profile
+PASS  Clinical sign-off and patient release remain separate
+PASS  Appointment booking uses transactions and capacity locks
+PASS  Appointment limits and duplicate-submission protection are enforced
+PASS  Queue check-in duplicate protection is present
+PASS  Inventory reconciliation detects stale counts under row locks
+PASS  Patient correction requests validate by type and detect record conflicts
+PASS  Medicine creation handles blank categories and field-level errors consistently
+PASS  Consultation screens have application, loading, empty, and error recovery paths
+PASS  Medical attachment downloads are authenticated, ownership-checked, and audited
+PASS  Report export access is audited
+PASS  v1.2 migration table: landing_content_media
+PASS  v1.2 migration table: policy_documents
+PASS  v1.2 migration table: policy_acceptances
+PASS  v1.2 migration table: archive_events
+PASS  v1.2 migration table: api_idempotency_keys
+PASS  v1.2 migration contract: 'policies.manage'
+PASS  v1.2 migration contract: 'archives.read'
+PASS  v1.2 migration contract: 'patients.archive'
+PASS  v1.2 migration contract: 'patients.unarchive'
+PASS  v1.2 migration contract: 'medicines.archive'
+PASS  v1.2 migration contract: 'medicines.unarchive'
+PASS  v1.2 migration contract: archived_at
+PASS  v1.2 migration contract: archive_reason
+PASS  v1.2 migration contract: '002_upgrade_v1_2_0'
+PASS  v1.2 migration contract: 'system_version','1.2.0'
+PASS  v1.2 migration contains no database drop or table truncation
+PASS  Versioned policy acceptance is enforced and audited during login
+PASS  Policy publication is versioned, immutable, and audited
+PASS  Pre-login policy links and separate acknowledgments are present
+PASS  Landing content supports safe hero replacement and multi-image galleries
+PASS  Landing administration distinguishes refresh failures and supports upload progress/cover selection
+PASS  Archive audit action: ARCHIVE_PATIENT
+PASS  Archive audit action: UNARCHIVE_PATIENT
+PASS  Archive audit action: ARCHIVE_MEDICINE
+PASS  Archive audit action: UNARCHIVE_MEDICINE
+PASS  Archive eligibility detects unresolved patient and inventory work
+PASS  Archive/unarchive preserves original records, stock, and history
+PASS  Dedicated Archives UI contains patient/medicine views and restoration actions
+PASS  Consultation, issuance, and stock receipt duplicate protection is implemented
+PASS  Patient rows are locked before new appointment, visit, and issuance archive checks
+PASS  Medicine issuance blocks expired/empty batches and one-time void restoration is locked
+PASS  Reports support patient-type filters, audited exports, and active inventory filtering
+PASS  New permissions are enforced in both frontend routing and backend APIs
+PASS  Backup/restore tools cover database and uploads without command-line passwords
+PASS  No Supabase dependency remains in the local full-stack implementation
+
+Static validation: 246 passed, 0 failed.

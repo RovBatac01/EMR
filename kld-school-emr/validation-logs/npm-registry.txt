@@ -1,0 +1,3 @@
+Command: npm view @rollup/rollup-linux-x64-gnu version --fetch-timeout=8000 --fetch-retries=0
+Result: FAILED — getaddrinfo EAI_AGAIN registry.npmjs.org
+Impact: a clean Linux-specific dependency installation and Vite production build could not be completed in the build container. Run npm run install:all and npm run build on the target Windows workstation.

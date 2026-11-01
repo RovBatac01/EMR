@@ -1,0 +1,4 @@
+import { ArrowLeft, SearchX } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+export default function NotFoundPage(){const{user}=useAuth();const home=user?.role==='STUDENT'?'/student':user?'/dashboard':'/login';return <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6 dark:bg-slate-950"><div className="surface max-w-lg p-8 text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-kld-50 text-kld-700 dark:bg-kld-500/10 dark:text-kld-300"><SearchX size={32}/></div><h1 className="mt-5 text-3xl font-extrabold">Page not found</h1><p className="mt-3 text-sm leading-6 text-slate-500">The requested page does not exist or is no longer available to this account.</p><Link className="btn-primary mt-6" to={home}><ArrowLeft size={17}/>Return to dashboard</Link></div></div>}

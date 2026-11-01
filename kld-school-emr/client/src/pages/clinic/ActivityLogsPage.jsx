@@ -1,0 +1,17 @@
+import { useEffect, useState } from 'react';
+import { Search, ScrollText } from 'lucide-react';
+import { api } from '../../services/api';
+import PageHeader from '../../components/PageHeader';
+import Pagination from '../../components/Pagination';
+import EmptyState from '../../components/EmptyState';
+import Alert from '../../components/Alert';
+import { formatDateTime, titleCase } from '../../utils/format';
+
+export default function ActivityLogsPage() {
+  const [items, setItems] = useState([]); const [meta, setMeta] = useState(null); const [loading, setLoading] = useState(true); const [error, setError] = useState('');
+  const [filters, setFilters] = useState({ search: '', action: '', dateFrom: '', dateTo: '', page: 1 });
+  const load = async () => { setLoading(true); try { const response = await api.get('/activity-logs', { params: { ...filters, limit: 20 } }); setItems(response.data.data); setMeta(response.data.meta); setError(''); } catch (e) { setError(e.message); } finally { setLoading(false); } };
+  useEffect(() => { load(); }, [filters.page, filters.action, filters.dateFrom, filters.dateTo]);
+  const update = (key, value) => setFilters((current) => ({ ...current, [key]: value, page: key === 'page' ? value : 1 }));
+  return <div><PageHeader title="Activity Logs" subtitle="Immutable audit trail of authentication, medical-record, inventory, account, and system-setting operations."/>{error && <div className="mb-4"><Alert>{error}</Alert></div>}<div className="surface mb-5 p-4"><form className="grid gap-3 lg:grid-cols-[1fr_220px_170px_170px_auto]" onSubmit={(e) => { e.preventDefault(); load(); }}><div className="relative"><Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"/><input className="input pl-9" value={filters.search} onChange={(e) => update('search', e.target.value)} placeholder="Action, description, or username…"/></div><input className="input" value={filters.action} onChange={(e) => update('action', e.target.value.toUpperCase())} placeholder="Action code"/><input className="input" type="date" value={filters.dateFrom} onChange={(e) => update('dateFrom', e.target.value)}/><input className="input" type="date" value={filters.dateTo} onChange={(e) => update('dateTo', e.target.value)}/><button className="btn-secondary">Search</button></form></div><div className="table-wrap">{loading ? <div className="p-12 text-center text-sm text-slate-500">Loading audit activity…</div> : items.length ? <table className="table"><thead><tr><th>Date & Time</th><th>User</th><th>Action</th><th>Description</th><th>IP Address</th><th>Related Record</th></tr></thead><tbody>{items.map((item) => <tr key={item.id}><td className="whitespace-nowrap">{formatDateTime(item.created_at)}</td><td><div className="font-bold">{item.username || 'System'}</div><div className="text-xs text-slate-500">{item.role_name || 'Background process'}</div></td><td><span className="rounded-lg bg-kld-50 px-2 py-1 text-xs font-extrabold text-kld-800 dark:bg-kld-900/30 dark:text-kld-200">{titleCase(item.action)}</span></td><td className="min-w-72">{item.description}</td><td>{item.ip_address || '—'}</td><td>{item.entity_type || '—'}{item.entity_id && <div className="max-w-40 truncate text-xs text-slate-500">{item.entity_id}</div>}</td></tr>)}</tbody></table> : <EmptyState icon={ScrollText} title="No activity records found"/>}</div><Pagination meta={meta} onPage={(page) => update('page', page)}/></div>;
+}

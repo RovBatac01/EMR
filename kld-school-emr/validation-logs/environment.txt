@@ -1,0 +1,7 @@
+Validation date: 2026-11-01
+Release: KLD School EMR 1.2.0
+Node: v22.16.0
+npm: 10.9.2
+OS: Linux 4f3918f00bc7 6.18.57 #1 SMP Tue Oct 20 21:56:04 UTC 2026 x86_64 GNU/Linux
+XAMPP/MySQL/MariaDB: not installed in this build container
+Browser/SMTP: not available for live integration testing
